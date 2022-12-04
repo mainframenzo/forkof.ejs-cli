@@ -24,34 +24,31 @@ Options:
   -h, --help      show this help.                               [boolean]  [default: false]
   -f, --file      give ejs template file path.                  [string]
   -b, --base-dir  base directory that -f is relative to.        [string]  [default: "./"]
-  -e, --exclude   file/directory names to exclude               [string] [space separated if more than one]
   -o, --out       file to write compiled.                       [string]
-  -O, --options   option variables (file path or JSON string).  [string]
+  -O, --options   option variables (file path or JSON string).  [string] (actually the 'data' parameter of EJS library)
+  -C, --config    config variables (file path or JSON string).  [string] (actually the 'options' parameter of EJS library)
 ```
 
 ### examples
 
 ```bash
 ejs-cli "*.ejs" --out dest/ --options options.json
-# renders the *.ejs files in the current working directory and outputs compiled files to dest/
+# renders all of the files in the current working directory and outputs them to dest/
 ```
 
 ```bash
 ejs-cli --base-dir src/ "*.ejs" --out dest/
-# renders the *.ejs files in src/ and outputs compiled files to dest/
+# renders all of the files in src/ and outputs them to dest/
 ```
 
 ```bash
-ejs-cli --base-dir src/ "**/*.ejs" --out dest/
-# renders the *.ejs files in src/ and its subdirectories and outputs compiled files to dest/
+ejs-cli "myfile.ejs" --config "{\"delimiter\":\"$\"}" --options options.json
+# renders the "myfile.ejs" file with inline config (set the custom delimiter "$") and an options.json data file
 ```
 
-Make sure to quote the file pattern, otherwise, your shell will expand it before it is passed to ejs-cli.
-This behaviour would prevent ejs-cli from walking down the tree in this latest exemple.
-
 ```bash
-ejs-cli --base-dir src/ "**/*.ejs" --exclude "partials/" --out dest/
-# exclude any "partials" directory from rendering
+ejs-cli "myfile.ejs" --config config.json --options "{\"test\":\"123\"}"
+# renders the "myfile.ejs" file with config.json config file and inline data
 ```
 
 ```bash
